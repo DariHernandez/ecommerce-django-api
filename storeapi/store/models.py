@@ -1,6 +1,8 @@
+import os
+import datetime
+from PIL import Image
 from distutils.command.upload import upload
 from django.db import models
-from PIL import Image
 
 def resizes_images (image_path):
     # Open original image
@@ -16,6 +18,17 @@ def resizes_images (image_path):
     regular_path = str(image_path).replace("full-size", "")
     new_img.save (regular_path)
 
+def upload_images ():
+    parent_folder = os.path.dirname(os.path.dirname(__file__))
+    images_folder = os.path.join (parent_folder, "imgs")
+    os.chdir (images_folder)
+
+    time_str = str(datetime.datetime.now())[:22]
+
+    os.system (f'git status')
+    os.system (f'git add -A')
+    os.system (f'git commit -m "update images {time_str}"')
+    os.system (f'git push origin master')
 
 class keagan_brand (models.Model):
 
@@ -58,8 +71,9 @@ class keagan_product (models.Model):
         # Call to default save function
         super().save()
 
-        # Resize image
+        # Resize and upload image
         resizes_images (self.image.path)
+        upload_images ()
 
     class Meta:
         verbose_name_plural = "products"
@@ -117,8 +131,9 @@ class keagan_new_product (models.Model):
         # Call to default save function
         super().save()
 
-        # Resize image
+        # Resize and upload image
         resizes_images (self.image.path)
+        upload_images ()
 
     class Meta:
         verbose_name_plural = "new products"

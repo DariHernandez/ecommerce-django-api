@@ -3,6 +3,14 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from . import models
 
+images_server = "https://raw.githubusercontent.com/DariHernandez/Keagan-s-Kloset-Boutique-images/master/"
+
+def update_images_links (product):
+    link = product["image"]
+    link = link.replace ("imgs/", images_server)
+    product["image_url"] = link
+    return product
+
 def index (request):
     """Return basic response in home"""
     response = {
@@ -30,6 +38,10 @@ def keagan_home (request):
 
         # Get products for current category
         new_products = list(models.keagan_new_product.objects.filter (category=new_products_categorie_id).values())
+        
+        # Update images urls
+        new_products = list(map(update_images_links, new_products))
+
         category_data["new_products"] = new_products
 
         # Save to main dict
@@ -53,6 +65,10 @@ def keagan_home (request):
 
         # Get products for current category
         products = list(models.keagan_product.objects.filter (brand=brand_id).values())[0:4]
+
+        # Update images urls
+        products = list(map(update_images_links, products))
+
         brand_data["products"] = products
 
         # Save to main dict
@@ -71,6 +87,9 @@ def keagan_home (request):
         product_data = list(models.keagan_product.objects.filter (id=best_product_id).values())[0]
         best_products_formated.append (product_data)
 
+    # Update images urls
+    best_products_formated = list(map(update_images_links, best_products_formated))
+
     # Format response
     response = {
         "store": "keagan",
@@ -88,6 +107,9 @@ def keagan_category_products (request, brand_id):
 
     # Get products for current category
     products = list(models.keagan_product.objects.filter (brand=brand_id).values())
+
+    # Update images urls
+    products = list(map(update_images_links, products))
 
     # Format response
     response = {
@@ -131,6 +153,11 @@ def keagan_product (request, product_id):
         # Remove element from list
         brand_products.remove (random_product)
 
+    # Update images urls
+    product = list(map(update_images_links, [product]))[0]
+
+    # Update images urls
+    random_products = list(map(update_images_links, random_products))
 
     # Format response
     response = {
