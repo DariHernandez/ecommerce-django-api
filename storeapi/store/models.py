@@ -2,25 +2,25 @@ from distutils.command.upload import upload
 from django.db import models
 from PIL import Image
 
-class keagansklosetboutique_brand (models.Model):
+class keagan_brand (models.Model):
 
     # Database
     name = models.CharField(max_length=20)
     details = models.TextField(max_length=500, default=None)
-    image = models.ImageField (blank=True, upload_to='brands', default=None)
+    image = models.ImageField (blank=True, upload_to='imgs/brands', default=None)
 
     # Show brand name in form
     def __str__ (self):
         return f"{self.name}"
 
 
-class keagansklosetboutique_product (models.Model):
+class keagan_product (models.Model):
     # database
     code = models.CharField (max_length=15)
-    brand = models.ForeignKey (keagansklosetboutique_brand, on_delete=models.CASCADE, null=True)
+    brand = models.ForeignKey (keagan_brand, on_delete=models.CASCADE, null=True)
     name = models.CharField (max_length=40)
     price = models.FloatField ()
-    image = models.ImageField (blank=True, upload_to='products/full-size', default=None)
+    image = models.ImageField (blank=True, upload_to='imgs/products/full-size', default=None)
     sizes = models.CharField (max_length=100, verbose_name="Sizes (separted by commas)")
 
     # Show product code, brand, namd and price, in form
