@@ -8,6 +8,7 @@
 /* colors */
 :root {
     --primary: #FFD523;
+    --primary-transparent: #ffd72358;
     --secondary: #FFD523;
     --link-fg: #B2B1B9;
     --link-selected-fg: #B2B1B9;
@@ -16,6 +17,7 @@
     --header-link-color: #1b1d2c;
     --header-color: #2C2E43;
     --breadcrumbs-link-fg: #595260;
+    --darkened-bg: #2c2e4360;
 }
 
 #user-tools a:hover, #user-tools a:hover {
@@ -85,6 +87,13 @@ input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, inp
     display: none;
 }
 
+/* hightlight current model */
+table .current-model {
+    background-color: var(--primary-transparent) !important;
+}
+table .current-model th {
+    padding-left: 30px !important;
+}
 
 /* round styles */
 #header, table caption, #changelist-filter h2  {
