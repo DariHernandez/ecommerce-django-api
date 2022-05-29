@@ -5,6 +5,7 @@
 {% block extrastyle %}{{ block.super }}
 <style>
 
+/* colors */
 :root {
     --primary: #FFD523;
     --secondary: #FFD523;
@@ -75,6 +76,19 @@ input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, inp
 
 .main #content h1 {
     color: var(--link-fg) !important;
+}
+
+/* round styles */
+#header, table caption  {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+
+/* Responsive */
+#container {
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 
