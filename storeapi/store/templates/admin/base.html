@@ -1,6 +1,6 @@
 {% extends 'admin/base.html' %}
 
-<!-- Update title -->
+{% load static %}
 
 {% block extrastyle %}{{ block.super }}
 <style>
@@ -31,6 +31,9 @@
 
 h1, h1 a {
     color: var(--header-link-color) !important;
+}
+
+h1, h1 a {
     font-weight: bold;
 }
 
@@ -78,8 +81,13 @@ input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, inp
     color: var(--link-fg) !important;
 }
 
+#toggle-nav-sidebar {
+    display: none;
+}
+
+
 /* round styles */
-#header, table caption  {
+#header, table caption, #changelist-filter h2  {
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 }
@@ -95,4 +103,8 @@ input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, inp
 </style>
 
 
+{% endblock %}
+
+{% block extrahead %}{{ block.super }}
+    <link rel="icon" href="{% static 'store/favicon.ico' %}" href="imagen.ico"/>
 {% endblock %}
