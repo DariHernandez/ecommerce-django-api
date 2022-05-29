@@ -16,20 +16,33 @@ admin_site = MyAdminSite()
 class BrandAdmin(admin.ModelAdmin):
     list_display = ('name', 'details')
     ordering = ['name']
-    subtitle = "Register new brands"
 
 @admin.register(models.keagan_product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('code', 'brand', 'name', 'price')
     list_filter = ('brand',)
-    radio_fields = {"brand": admin.VERTICAL}
+    # radio_fields = {"brand": admin.VERTICAL}
     ordering = ['code']
     search_fields = ['name']
-    search_help_text = "Serach keagan_product by name"
+    search_help_text = "Serach product by name"
 
 @admin.register (models.keagan_best)
 class BestAdmin (admin.ModelAdmin):
     product = ['code']
+
+@admin.register(models.keagan_new_products_categories)
+class NewCategoryProductAdmin(admin.ModelAdmin):
+    list_display = ('name', 'details')
+    ordering = ['name']
+
+@admin.register(models.keagan_new_product)
+class NewProductAdmin(admin.ModelAdmin):
+    list_display = ('id', 'category', 'name', 'price')
+    list_filter = ('category',)
+    # radio_fields = {"category": admin.VERTICAL}
+    ordering = ['id']
+    search_fields = ['name']
+    search_help_text = "Serach new product by name"
 
 
 admin_site.register(auth.models.User)
@@ -37,3 +50,5 @@ admin_site.register(auth.models.Group)
 admin_site.register(models.keagan_brand, BrandAdmin)
 admin_site.register(models.keagan_product, ProductAdmin)
 admin_site.register(models.keagan_best, BestAdmin)
+admin_site.register(models.keagan_new_products_categories, NewCategoryProductAdmin)
+admin_site.register(models.keagan_new_product, NewProductAdmin)
