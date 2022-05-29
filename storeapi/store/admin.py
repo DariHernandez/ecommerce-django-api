@@ -1,5 +1,5 @@
 from django.contrib import admin, auth
-from .models import keagan_brand, keagan_product
+from . import models
 
 class MyAdminSite(admin.AdminSite):
     site_header = 'Dari Dev Store Dashboard'
@@ -12,12 +12,13 @@ admin_site = MyAdminSite()
 # admin.site.register(keagan_brand)
 
 # Import with extra actions
-@admin.register(keagan_brand)
+@admin.register(models.keagan_brand)
 class BrandAdmin(admin.ModelAdmin):
     list_display = ('name', 'details')
     ordering = ['name']
+    subtitle = "Register new brands"
 
-@admin.register(keagan_product)
+@admin.register(models.keagan_product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('code', 'brand', 'name', 'price')
     list_filter = ('brand',)
@@ -26,7 +27,13 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ['name']
     search_help_text = "Serach keagan_product by name"
 
-admin_site.register(keagan_brand, BrandAdmin)
-admin_site.register(keagan_product, ProductAdmin)
+@admin.register (models.keagan_best)
+class BestAdmin (admin.ModelAdmin):
+    product = ['code']
+
+
 admin_site.register(auth.models.User)
 admin_site.register(auth.models.Group)
+admin_site.register(models.keagan_brand, BrandAdmin)
+admin_site.register(models.keagan_product, ProductAdmin)
+admin_site.register(models.keagan_best, BestAdmin)

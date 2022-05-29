@@ -1,9 +1,6 @@
 {% extends 'admin/base.html' %}
 
 <!-- Update title -->
-{% block title %}{{ block.super }}
-DariDev Admin
-{% endblock %}
 
 {% block extrastyle %}{{ block.super }}
 <style>
@@ -72,6 +69,16 @@ input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, inp
     border-color: var(--link-selected-fg);
 }
 
+.main:not(.shifted) #content h1 {
+    display: none;
+}
+
+.main #content h1 {
+    color: var(--link-fg) !important;
+}
+
+
 </style>
+
 
 {% endblock %}

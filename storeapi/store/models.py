@@ -13,6 +13,9 @@ class keagan_brand (models.Model):
     def __str__ (self):
         return f"{self.name}"
 
+    class Meta:
+        verbose_name_plural = "Brands"
+        verbose_name = "brand"
 
 class keagan_product (models.Model):
     # database
@@ -52,3 +55,20 @@ class keagan_product (models.Model):
         new_img = img.resize((350, int(350*height/width)))
         regular_path = str(self.image.path).replace("full-size", "")
         new_img.save (regular_path)
+
+    class Meta:
+        verbose_name_plural = "Products"
+        verbose_name = "product"
+
+class keagan_best (models.Model):
+    
+    # Database
+    product = models.ForeignKey (keagan_product, on_delete=models.CASCADE, null=True)
+
+    # Show brand name in form
+    def __str__ (self):
+        return f"{self.product}"
+
+    class Meta:
+        verbose_name_plural = "Best products"
+        verbose_name = "best product"
