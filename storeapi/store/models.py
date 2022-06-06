@@ -30,7 +30,7 @@ def resize_upload_images (image_path):
     os.system (f'git commit -m "update images {time_str}"')
     os.system (f'git push origin master')
 
-class keagan_brand (models.Model):
+class KeaganBrand (models.Model):
 
     # Database
     name = models.CharField(max_length=20)
@@ -45,10 +45,10 @@ class keagan_brand (models.Model):
         verbose_name_plural = "brands"
         verbose_name = "brand"
 
-class keagan_product (models.Model):
+class KeaganProduct (models.Model):
     # database
     code = models.CharField (max_length=15)
-    brand = models.ForeignKey (keagan_brand, on_delete=models.CASCADE, null=True)
+    brand = models.ForeignKey (KeaganBrand, on_delete=models.CASCADE, null=True)
     name = models.CharField (max_length=40)
     price = models.FloatField ()
     image = models.ImageField (blank=True, upload_to='imgs/products/full-size', default=None)
@@ -79,10 +79,10 @@ class keagan_product (models.Model):
         verbose_name_plural = "products"
         verbose_name = "product"
 
-class keagan_best (models.Model):
+class KeaganBest (models.Model):
     
     # Database
-    product = models.ForeignKey (keagan_product, on_delete=models.CASCADE, null=True)
+    product = models.ForeignKey (KeaganProduct, on_delete=models.CASCADE, null=True)
 
     # Show brand name in form
     def __str__ (self):
@@ -92,7 +92,7 @@ class keagan_best (models.Model):
         verbose_name_plural = "best products"
         verbose_name = "best product"
 
-class keagan_new_products_categories (models.Model):
+class KeaganNewProductsCategories (models.Model):
     
     # Database
     name = models.CharField (max_length=50)
@@ -107,9 +107,9 @@ class keagan_new_products_categories (models.Model):
         verbose_name = "new products category"
 
 
-class keagan_new_product (models.Model):
+class KeaganNewProduct (models.Model):
     # database
-    category = models.ForeignKey (keagan_new_products_categories, on_delete=models.CASCADE, null=True)
+    category = models.ForeignKey (KeaganNewProductsCategories, on_delete=models.CASCADE, null=True)
     name = models.CharField (max_length=40)
     price = models.FloatField ()
     image = models.ImageField (blank=True, upload_to='imgs/products/full-size', default=None)
