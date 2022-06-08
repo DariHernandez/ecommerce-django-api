@@ -12,12 +12,12 @@ admin_site = MyAdminSite()
 # admin.site.register(keagan_brand)
 
 # Import with extra actions
-@admin.register(models.keagan_brand)
+@admin.register(models.KeaganBrand)
 class BrandAdmin(admin.ModelAdmin):
     list_display = ('name', 'details')
     ordering = ['name']
 
-@admin.register(models.keagan_product)
+@admin.register(models.KeaganProduct)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('code', 'brand', 'name', 'price')
     list_filter = ('brand',)
@@ -26,16 +26,16 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ['name']
     search_help_text = "Serach product by name"
 
-@admin.register (models.keagan_best)
+@admin.register (models.KeaganBest)
 class BestAdmin (admin.ModelAdmin):
     product = ['code']
 
-@admin.register(models.keagan_new_products_categories)
+@admin.register(models.KeaganNewProductsCategories)
 class NewCategoryProductAdmin(admin.ModelAdmin):
     list_display = ('name', 'details')
     ordering = ['name']
 
-@admin.register(models.keagan_new_product)
+@admin.register(models.KeaganNewProduct)
 class NewProductAdmin(admin.ModelAdmin):
     list_display = ('id', 'category', 'name', 'price')
     list_filter = ('category',)
@@ -47,8 +47,8 @@ class NewProductAdmin(admin.ModelAdmin):
 
 admin_site.register(auth.models.User)
 admin_site.register(auth.models.Group)
-admin_site.register(models.keagan_brand, BrandAdmin)
-admin_site.register(models.keagan_product, ProductAdmin)
-admin_site.register(models.keagan_best, BestAdmin)
-admin_site.register(models.keagan_new_products_categories, NewCategoryProductAdmin)
-admin_site.register(models.keagan_new_product, NewProductAdmin)
+admin_site.register(models.KeaganBrand, BrandAdmin)
+admin_site.register(models.KeaganProduct, ProductAdmin)
+admin_site.register(models.KeaganBest, BestAdmin)
+admin_site.register(models.KeaganNewProductsCategories, NewCategoryProductAdmin)
+admin_site.register(models.KeaganNewProduct, NewProductAdmin)

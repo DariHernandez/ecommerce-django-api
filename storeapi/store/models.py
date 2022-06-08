@@ -1,10 +1,18 @@
 import os
+import time
 import datetime
 from PIL import Image
 from django.db import models
 from threading import Thread
 
+global updateting_images
+updateting_images = False
+
 def resize_upload_images (image_path):
+
+    global updateting_images
+    updateting_images = True
+
     # Open original image
     img = Image.open (image_path)
     width, height = img.size
@@ -29,6 +37,8 @@ def resize_upload_images (image_path):
     os.system (f'git add -A')
     os.system (f'git commit -m "update images {time_str}"')
     os.system (f'git push origin master')
+
+    updateting_images = False
 
 class KeaganBrand (models.Model):
 
@@ -71,9 +81,19 @@ class KeaganProduct (models.Model):
         # Call to default save function
         super().save()
 
+        # Skip test recods
+        if "test" in self.name:
+            return None
+
         # Resize and upload image
-        thread_obj = Thread (target=resize_upload_images, args=(self.image.path,))
-        thread_obj.start ()
+        while True:
+            if updateting_images:
+                time.sleep (1)
+                continue
+            thread_obj = Thread (target=resize_upload_images, args=(self.image.path,))
+            thread_obj.start ()
+            break
+            # resize_upload_images (self.image.path)
 
     class Meta:
         verbose_name_plural = "products"
@@ -131,9 +151,19 @@ class KeaganNewProduct (models.Model):
         # Call to default save function
         super().save()
 
+        # Skip test recods
+        if "test" in self.name:
+            return None
+
         # Resize and upload image
-        thread_obj = Thread (target=resize_upload_images, args=(self.image.path,))
-        thread_obj.start ()
+        while True:
+            if updateting_images:
+                time.sleep (1)
+                continue
+            thread_obj = Thread (target=resize_upload_images, args=(self.image.path,))
+            thread_obj.start ()
+            break
+            # resize_upload_images (self.image.path)
 
     class Meta:
         verbose_name_plural = "new products"
