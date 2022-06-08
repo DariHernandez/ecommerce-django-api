@@ -1,6 +1,11 @@
 import os
+import time
+import requests
 from . import models
+from . import images_server
 from django.test import TestCase
+
+
 
 static_folder = os.path.join (os.path.dirname(__file__), "static", "store")
 
@@ -367,3 +372,34 @@ class TestKeaganModels (TestCase):
         self.new_product_read ()
         self.new_product_update ()
         self.new_product_delete ()
+
+class TestKeaganImageServer (TestCase):
+
+    def test_image_server (self):
+        """
+        Download sample image and upload to github
+        """
+        now = time.time()
+
+        # Urls and paths
+        image_url = "https://www.darideveloper.com/imgs/logo.png"
+        project_folder = os.path.dirname(os.path.dirname(__file__))
+        image_path = os.path.join (project_folder, "imgs", f"test-img{now}.png")
+
+        # Download sample image
+        res = requests.get (image_url)
+        res.raise_for_status()
+        file = open (image_path, "wb")
+        for chunk in res.iter_content(100000):
+            file.write (chunk)
+        file.close()
+
+        # Upload new image to github
+        images_server.upload_keagan (test_id=int(now), test_start=True)
+
+        # Delete image
+        os.remove (image_path)
+
+        # Delete image from github
+        images_server.upload_keagan (test_id=int(now), test_start=False)
+
