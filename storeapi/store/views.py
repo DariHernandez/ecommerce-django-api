@@ -26,7 +26,7 @@ def keagan_home (request):
     new_products_formated = []
 
     # Get categories
-    new_products_categories = list(models.keagan_new_products_categories.objects.values())
+    new_products_categories = list(models.KeaganNewProductsCategories.objects.values())
     for new_products_categorie in new_products_categories:
         category_data = {}
 
@@ -37,7 +37,7 @@ def keagan_home (request):
         category_data["category_details"] = new_products_categorie["details"]
 
         # Get products for current category
-        new_products = list(models.keagan_new_product.objects.filter (category=new_products_categorie_id).values())
+        new_products = list(models.KeaganNewProduct.objects.filter (category=new_products_categorie_id).values())
         
         # Update images urls
         new_products = list(map(update_images_links, new_products))
@@ -51,7 +51,7 @@ def keagan_home (request):
     regular_products_formated = []
 
     # Get brands
-    products_brands = list(models.keagan_brand.objects.values())
+    products_brands = list(models.KeaganBrand.objects.values())
     for products_brand in products_brands:
         brand_data = {}
 
@@ -64,7 +64,7 @@ def keagan_home (request):
         brand_data["image"] = products_brand["image"]
 
         # Get products for current category
-        products = list(models.keagan_product.objects.filter (brand=brand_id).values())[0:4]
+        products = list(models.KeaganProduct.objects.filter (brand=brand_id).values())[0:4]
 
         # Update images urls
         products = list(map(update_images_links, products))
@@ -78,13 +78,13 @@ def keagan_home (request):
     best_products_formated = []
 
     # Get best products
-    best_products = list(models.keagan_best.objects.values())
+    best_products = list(models.KeaganBest.objects.values())
     for best_product in best_products:
 
         best_product_id = best_product["id"]
 
         # Get product data
-        product_data = list(models.keagan_product.objects.filter (id=best_product_id).values())[0]
+        product_data = list(models.KeaganProduct.objects.filter (id=best_product_id).values())[0]
         best_products_formated.append (product_data)
 
     # Update images urls
@@ -103,10 +103,10 @@ def keagan_category_products (request, brand_id):
     """Return all products from soecific category"""
 
     # Get brand data
-    brand = list(models.keagan_brand.objects.filter (id=brand_id).values())[0]
+    brand = list(models.KeaganBrand.objects.filter (id=brand_id).values())[0]
 
     # Get products for current category
-    products = list(models.keagan_product.objects.filter (brand=brand_id).values())
+    products = list(models.KeaganProduct.objects.filter (brand=brand_id).values())
 
     # Update images urls
     products = list(map(update_images_links, products))
@@ -125,17 +125,17 @@ def keagan_product (request, product_id):
     """ Return specific product data """
 
     """ Get product data """
-    product = list(models.keagan_product.objects.filter (id=product_id).values())[0]
+    product = list(models.KeaganProduct.objects.filter (id=product_id).values())[0]
 
     """ Get random products """
     random_products = []
 
     # Get brand data
     brand_id = product["brand_id"]
-    brand_name = list(models.keagan_brand.objects.filter (id=brand_id).values())[0]["name"]
+    brand_name = list(models.KeaganBrand.objects.filter (id=brand_id).values())[0]["name"]
 
     # Get all products from current brand
-    brand_products = list(models.keagan_product.objects.filter (brand=brand_id).values())
+    brand_products = list(models.KeaganProduct.objects.filter (brand=brand_id).values())
 
     # Remove current product from list
     brand_products.remove (product)
