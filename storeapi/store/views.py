@@ -22,7 +22,7 @@ def index (request):
 def keagan_home (request):
     """Return all data for load home page"""
 
-    """ Get and format new products """
+    # ///// Get and format new products ////////////////////
     new_products_formated = []
 
     # Get categories
@@ -47,7 +47,7 @@ def keagan_home (request):
         # Save to main dict
         new_products_formated.append (category_data)
 
-    """ Get and format regular products """
+    #///// Get and format regular products ////////////////////
     regular_products_formated = []
 
     # Get brands
@@ -74,14 +74,14 @@ def keagan_home (request):
         # Save to main dict
         regular_products_formated.append (brand_data)
     
-    """ Get and format best products """
+    #  ///// Get and format best products ////////////////////
     best_products_formated = []
 
     # Get best products
     best_products = list(models.KeaganBest.objects.values())
     for best_product in best_products:
 
-        best_product_id = best_product["id"]
+        best_product_id = best_product["product_id"]
 
         # Get product data
         product_data = list(models.KeaganProduct.objects.filter (id=best_product_id).values())[0]
@@ -144,8 +144,7 @@ def keagan_product (request, product_id):
     for _ in range (4):
 
         # Select random product
-        random_index = random.randint(1, len(brand_products)-1)
-        random_product = brand_products[random_index]
+        random_product = random.choice(brand_products)
 
         # Save in list
         random_products.append (random_product)
