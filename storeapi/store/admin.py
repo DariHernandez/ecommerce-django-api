@@ -30,7 +30,7 @@ class ProductAdmin(admin.ModelAdmin):
 class BestAdmin (admin.ModelAdmin):
     product = ['code']
 
-@admin.register(models.KeaganNewProductsCategories)
+@admin.register(models.KeaganNewProductCategory)
 class NewCategoryProductAdmin(admin.ModelAdmin):
     list_display = ('name', 'details')
     ordering = ['name']
@@ -50,5 +50,5 @@ admin_site.register(auth.models.Group)
 admin_site.register(models.KeaganBrand, BrandAdmin)
 admin_site.register(models.KeaganProduct, ProductAdmin)
 admin_site.register(models.KeaganBest, BestAdmin)
-admin_site.register(models.KeaganNewProductsCategories, NewCategoryProductAdmin)
+admin_site.register(models.KeaganNewProductCategory, NewCategoryProductAdmin)
 admin_site.register(models.KeaganNewProduct, NewProductAdmin)

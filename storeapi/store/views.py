@@ -26,7 +26,7 @@ def keagan_home (request):
     new_products_formated = []
 
     # Get categories
-    new_products_categories = list(models.KeaganNewProductsCategories.objects.values())
+    new_products_categories = list(models.KeaganNewProductCategory.objects.values())
     for new_products_categorie in new_products_categories:
         category_data = {}
 
@@ -178,7 +178,7 @@ def keagan_product_new (request, product_id):
 
     # Get brand data
     category_id = product["category_id"]
-    category_name = list(models.KeaganNewProductsCategories.objects.filter (id=category_id).values())[0]["name"]
+    category_name = list(models.KeaganNewProductCategory.objects.filter (id=category_id).values())[0]["name"]
 
     # Get all products from current brand
     category_products = list(models.KeaganNewProduct.objects.filter (category=category_id).values())

@@ -209,11 +209,11 @@ class TestKeaganModels (TestCase):
 
     def new_product_category_create (self):
         """
-        Add a new register to the KeaganNewProductsCategories model
+        Add a new register to the KeaganNewProductCategory model
         """
 
         # Add a new brand
-        category = models.KeaganNewProductsCategories (
+        category = models.KeaganNewProductCategory (
             name=brand_name, 
             details=brand_details)
         category.save()
@@ -221,11 +221,11 @@ class TestKeaganModels (TestCase):
     
     def new_product_category_read (self):
         """
-        Chack if register is correctly saved in KeaganNewProductsCategories model
+        Chack if register is correctly saved in KeaganNewProductCategory model
         """
 
         # Count the number of brands
-        categories = models.KeaganNewProductsCategories.objects.filter(name=brand_name)
+        categories = models.KeaganNewProductCategory.objects.filter(name=brand_name)
         self.assertEqual (len(categories), 1)
         
         # Check brand content
@@ -234,35 +234,35 @@ class TestKeaganModels (TestCase):
 
     def new_product_category_update (self):
         """
-        Update register in KeaganNewProductsCategories model and check the changes
+        Update register in KeaganNewProductCategory model and check the changes
         """
 
         # Get brand
-        category = models.KeaganNewProductsCategories.objects.filter(name=brand_name)[0]
+        category = models.KeaganNewProductCategory.objects.filter(name=brand_name)[0]
 
         # Update values
         category.details = f"{brand_details} updated"
         category.save ()
 
         # Get brand again
-        category = models.KeaganNewProductsCategories.objects.filter(name=brand_name)[0]
+        category = models.KeaganNewProductCategory.objects.filter(name=brand_name)[0]
 
         # Validate updated values
         self.assertEqual (category.details, f"{brand_details} updated")
 
     def new_product_category_delete (self):
         """
-        Delete test register in KeaganNewProductsCategories
+        Delete test register in KeaganNewProductCategory
         """
 
         # Get brand
-        category = models.KeaganNewProductsCategories.objects.filter(name=brand_name)[0]
+        category = models.KeaganNewProductCategory.objects.filter(name=brand_name)[0]
 
         # Delete
         category.delete ()
 
         # Check if its deleted
-        categories = models.KeaganNewProductsCategories.objects.filter(name=brand_name)
+        categories = models.KeaganNewProductCategory.objects.filter(name=brand_name)
         self.assertEqual (len(categories), 0)
 
     # ----- New Product Categories model functions ------------------------------
@@ -335,79 +335,79 @@ class TestKeaganModels (TestCase):
 
     # ----- Test functions --------------------------------
 
-    # def test_brand_curd (self):
-    #     """
-    #     Test KeaganBrand model crud
-    #     """
-    #     self.brand_create ()
-    #     self.brand_read ()
-    #     self.brand_update ()
-    #     self.brand_delete ()
+    def test_brand_curd (self):
+        """
+        Test KeaganBrand model crud
+        """
+        self.brand_create ()
+        self.brand_read ()
+        self.brand_update ()
+        self.brand_delete ()
 
-    # def test_product_curd (self):
-    #     """
-    #     Test KeaganProduct model crud
-    #     """
-    #     self.product_create ()
-    #     self.product_read ()
-    #     self.product_update ()
-    #     self.product_delete ()
+    def test_product_curd (self):
+        """
+        Test KeaganProduct model crud
+        """
+        self.product_create ()
+        self.product_read ()
+        self.product_update ()
+        self.product_delete ()
 
-    # def test_best_curd (self):
-    #     """
-    #     Test KeaganBest model crud
-    #     """
-    #     self.best_create ()
-    #     self.best_read ()
-    #     self.best_delete ()
+    def test_best_curd (self):
+        """
+        Test KeaganBest model crud
+        """
+        self.best_create ()
+        self.best_read ()
+        self.best_delete ()
 
-    # def test_new_product_category_crud (self):
-    #     """
-    #     Test KeaganNewProductsCategories model crud
-    #     """
-    #     self.new_product_category_create ()
-    #     self.new_product_category_read ()
-    #     self.new_product_category_update ()
-    #     self.new_product_category_delete ()
+    def test_new_product_category_crud (self):
+        """
+        Test KeaganNewProductCategory model crud
+        """
+        self.new_product_category_create ()
+        self.new_product_category_read ()
+        self.new_product_category_update ()
+        self.new_product_category_delete ()
 
-    # def test_new_product_crud (self):
-    #     """
-    #     Test KeaganNewProduct model crud
-    #     """
-    #     self.new_product_create ()
-    #     self.new_product_read ()
-    #     self.new_product_update ()
-    #     self.new_product_delete ()
+    def test_new_product_crud (self):
+        """
+        Test KeaganNewProduct model crud
+        """
+        self.new_product_create ()
+        self.new_product_read ()
+        self.new_product_update ()
+        self.new_product_delete ()
 
-# class TestImageServer (TestCase):
+class TestImageServer (TestCase):
 
-#     def test_keagan (self):
-#         """
-#         Download sample image and upload to github
-#         """
-#         now = time.time()
+    def test_keagan (self):
+        """
+        Download sample image and upload to github
+        """
+        now = time.time()
 
-#         # Urls and paths
-#         image_url = "https://www.darideveloper.com/imgs/logo.png"
-#         parent_folder = os.path.dirname(__file__)
-#         image_path = os.path.join (parent_folder, "static", "store", "imgs_keagan", f"test-img{now}.png")
+        # Urls and paths
+        image_url = "https://www.darideveloper.com/imgs/logo.png"
+        parent_folder = os.path.dirname(__file__)
+        image_path = os.path.join (parent_folder, "static", "store", "imgs_keagan", f"test-img{now}.png")
 
-#         # Download sample image
-#         res = requests.get (image_url)
-#         res.raise_for_status()
-#         file = open (image_path, "wb")
-#         for chunk in res.iter_content(100000):
-#             file.write (chunk)
-#         file.close()
+        # Download sample image
+        res = requests.get (image_url)
+        res.raise_for_status()
+        file = open (image_path, "wb")
+        for chunk in res.iter_content(100000):
+            file.write (chunk)
+        file.close()
 
-#         # Upload new image to github
-#         images_server.upload_keagan (test_id=int(now), test_start=True)
+        # Upload new image to github
+        images_server.upload_keagan (test_id=int(now), test_start=True)
 
-#         # Delete image
-#         os.remove (image_path)
+        # Delete image
+        os.remove (image_path)
 
-#         # Delete image from github
-#         images_server.upload_keagan (test_id=int(now), test_start=False)
+        # Delete image from github
+        images_server.upload_keagan (test_id=int(now), test_start=False)
 
 class TestApi (TestCase):
 

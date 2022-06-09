@@ -106,7 +106,7 @@ class KeaganBest (models.Model):
         verbose_name_plural = "best products"
         verbose_name = "best product"
 
-class KeaganNewProductsCategories (models.Model):
+class KeaganNewProductCategory (models.Model):
     
     # Database
     name = models.CharField (max_length=50)
@@ -123,7 +123,7 @@ class KeaganNewProductsCategories (models.Model):
 
 class KeaganNewProduct (models.Model):
     # database
-    category = models.ForeignKey (KeaganNewProductsCategories, on_delete=models.CASCADE, null=True)
+    category = models.ForeignKey (KeaganNewProductCategory, on_delete=models.CASCADE, null=True)
     name = models.CharField (max_length=40)
     price = models.FloatField ()
     image = models.ImageField (blank=True, upload_to=f'{images_folder}/products/full-size', default=None, max_length=500)
