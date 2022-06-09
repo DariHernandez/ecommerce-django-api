@@ -1,15 +1,11 @@
+import os
 import random
 from django.shortcuts import render
 from django.http import JsonResponse
 from . import models
 
-images_server = "https://raw.githubusercontent.com/DariHernandez/Keagan-s-Kloset-Boutique-images/master/"
 
-def update_images_links (product):
-    link = product["image"]
-    link = link.replace ("imgs/", images_server)
-    product["image_url"] = link
-    return product
+keagan_images_server = "https://raw.githubusercontent.com/DariHernandez/Keagan-s-Kloset-Boutique-images/master"
 
 def index (request):
     """Return basic response in home"""
@@ -18,6 +14,23 @@ def index (request):
         "stores": ["keagan",]
     }
     return JsonResponse(response)
+
+def keagan_update_images_links (product):
+    
+    # Get image name
+    image = product["image"]
+    image_name = os.path.basename (image)
+    product["image"] = image_name
+
+    # Add links
+    product["image_url_full"] = f"{keagan_images_server}/products/full-size/{image_name}"
+    product["image_url"] = f"{keagan_images_server}/products/{image_name}"
+
+    return product
+
+def keagan_get_brand_image_link (brand_image):
+    image_name = os.path.basename (brand_image)
+    return f"{keagan_images_server}/brands/{image_name}"
 
 def keagan_home (request):
     """Return all data for load home page"""
@@ -40,7 +53,7 @@ def keagan_home (request):
         new_products = list(models.KeaganNewProduct.objects.filter (category=new_products_categorie_id).values())
         
         # Update images urls
-        new_products = list(map(update_images_links, new_products))
+        new_products = list(map(keagan_update_images_links, new_products))
 
         category_data["new_products"] = new_products
 
@@ -61,13 +74,13 @@ def keagan_home (request):
         brand_data["id"] = brand_id
         brand_data["name"] = products_brand["name"]
         brand_data["details"] = products_brand["details"]
-        brand_data["image"] = products_brand["image"]
+        brand_data["image"] = keagan_get_brand_image_link(products_brand["image"])
 
         # Get products for current category
         products = list(models.KeaganProduct.objects.filter (brand=brand_id).values())[0:4]
 
         # Update images urls
-        products = list(map(update_images_links, products))
+        products = list(map(keagan_update_images_links, products))
 
         brand_data["products"] = products
 
@@ -88,7 +101,7 @@ def keagan_home (request):
         best_products_formated.append (product_data)
 
     # Update images urls
-    best_products_formated = list(map(update_images_links, best_products_formated))
+    best_products_formated = list(map(keagan_update_images_links, best_products_formated))
 
     # Format response
     response = {
@@ -109,7 +122,7 @@ def keagan_category_products (request, brand_id):
     products = list(models.KeaganProduct.objects.filter (brand=brand_id).values())
 
     # Update images urls
-    products = list(map(update_images_links, products))
+    products = list(map(keagan_update_images_links, products))
 
     # Format response
     response = {
@@ -153,10 +166,10 @@ def keagan_product (request, product_id):
         brand_products.remove (random_product)
 
     # Update images urls
-    product = list(map(update_images_links, [product]))[0]
+    product = list(map(keagan_update_images_links, [product]))[0]
 
     # Update images urls
-    random_products = list(map(update_images_links, random_products))
+    random_products = list(map(keagan_update_images_links, random_products))
 
     # Format response
     response = {
@@ -199,10 +212,10 @@ def keagan_product_new (request, product_id):
         category_products.remove (random_product)
 
     # Update images urls
-    product = list(map(update_images_links, [product]))[0]
+    product = list(map(keagan_update_images_links, [product]))[0]
 
     # Update images urls
-    random_products = list(map(update_images_links, random_products))
+    random_products = list(map(keagan_update_images_links, random_products))
 
     # Format response
     response = {
