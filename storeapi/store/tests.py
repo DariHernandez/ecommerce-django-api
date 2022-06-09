@@ -207,7 +207,7 @@ class TestKeaganModels (TestCase):
 
     # ----- New Product Categories model functions --------------------------------
 
-    def new_product_categories_create (self):
+    def new_product_category_create (self):
         """
         Add a new register to the KeaganNewProductsCategories model
         """
@@ -219,7 +219,7 @@ class TestKeaganModels (TestCase):
         category.save()
         return category
     
-    def new_product_categories_read (self):
+    def new_product_category_read (self):
         """
         Chack if register is correctly saved in KeaganNewProductsCategories model
         """
@@ -232,7 +232,7 @@ class TestKeaganModels (TestCase):
         self.assertEqual (categories[0].name, brand_name)
         self.assertEqual (categories[0].details, brand_details)
 
-    def new_product_categories_update (self):
+    def new_product_category_update (self):
         """
         Update register in KeaganNewProductsCategories model and check the changes
         """
@@ -250,7 +250,7 @@ class TestKeaganModels (TestCase):
         # Validate updated values
         self.assertEqual (category.details, f"{brand_details} updated")
 
-    def new_product_categories_delete (self):
+    def new_product_category_delete (self):
         """
         Delete test register in KeaganNewProductsCategories
         """
@@ -267,18 +267,19 @@ class TestKeaganModels (TestCase):
 
     # ----- New Product Categories model functions ------------------------------
 
-    def new_product_create (self):
+    def new_product_create (self, name=product_name, category=None):
         """
         Add a new register to the KeaganNewProduct model
         """
 
         # Add test brand
-        category = self.new_product_categories_create ()
+        if not category:
+            category = self.new_product_category_create ()
 
         # Add a new product
         new_product = models.KeaganNewProduct (
             category=category,
-            name=product_name,
+            name=name,
             price=product_price,
             image=image)
         new_product.save()
@@ -360,14 +361,14 @@ class TestKeaganModels (TestCase):
     #     self.best_read ()
     #     self.best_delete ()
 
-    # def test_new_product_categories_crud (self):
+    # def test_new_product_category_crud (self):
     #     """
     #     Test KeaganNewProductsCategories model crud
     #     """
-    #     self.new_product_categories_create ()
-    #     self.new_product_categories_read ()
-    #     self.new_product_categories_update ()
-    #     self.new_product_categories_delete ()
+    #     self.new_product_category_create ()
+    #     self.new_product_category_read ()
+    #     self.new_product_category_update ()
+    #     self.new_product_category_delete ()
 
     # def test_new_product_crud (self):
     #     """
@@ -539,6 +540,39 @@ class TestApi (TestCase):
         self.assertIn (related_product_name, random_products_first["name"])
         self.assertEqual (random_products_first["price"], product_price)
         self.assertEqual (random_products_first["sizes"], product_sizes)
+
+    def test_keagan_product_new (self):
+        """Test product data retuned for the keagan_product_new endpoint"""
+
+        main_product_name = "test main product"
+        related_product_name = "test related product"
+
+        # Save sample data
+        test_keagan_models = TestKeaganModels ()
+        category = test_keagan_models.new_product_category_create ()
+        product = test_keagan_models.new_product_create (main_product_name, category)
+        for product_num in range (1,5):
+            test_keagan_models.new_product_create (f"{related_product_name} {product_num}", category)
+
+        # Get response
+        response = self.client.get(reverse('store:keagan_product_new', kwargs={"product_id":product.id}))
+        self.assertEqual (response.status_code, 200)
+
+        # Check general response content
+        json_data = json.loads(response.content)
+        self.assertEqual (json_data["category"], brand_name)
+
+        # Check main product data
+        product = json_data["product"]
+        self.assertEqual (product["name"], main_product_name)
+        self.assertEqual (product["price"], product_price)
+
+        # Check random products data
+        random_products = json_data["random_products"]
+        self.assertEqual (len(random_products), 4)
+        random_products_first = random_products[1]
+        self.assertIn (related_product_name, random_products_first["name"])
+        self.assertEqual (random_products_first["price"], product_price)
 
 
 

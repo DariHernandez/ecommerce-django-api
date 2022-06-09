@@ -166,4 +166,50 @@ def keagan_product (request, product_id):
     }
 
     return JsonResponse(response)
+
+def keagan_product_new (request, product_id):
+    """ Return specific new product data """
+
+    """ Get product data """
+    product = list(models.KeaganNewProduct.objects.filter (id=product_id).values())[0]
+
+    """ Get random products """
+    random_products = []
+
+    # Get brand data
+    category_id = product["category_id"]
+    category_name = list(models.KeaganNewProductsCategories.objects.filter (id=category_id).values())[0]["name"]
+
+    # Get all products from current brand
+    category_products = list(models.KeaganNewProduct.objects.filter (category=category_id).values())
+
+    # Remove current product from list
+    category_products.remove (product)
+
+    # Select 4 random products
+    for _ in range (4):
+
+        # Select random product
+        random_product = random.choice(category_products)
+
+        # Save in list
+        random_products.append (random_product)
+
+        # Remove element from list
+        category_products.remove (random_product)
+
+    # Update images urls
+    product = list(map(update_images_links, [product]))[0]
+
+    # Update images urls
+    random_products = list(map(update_images_links, random_products))
+
+    # Format response
+    response = {
+        "category": category_name,
+        "product": product,
+        "random_products": random_products
+    }
+
+    return JsonResponse(response)
     
