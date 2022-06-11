@@ -28,9 +28,10 @@ def index (request):
 
     # Validate api user name
     valid_login = False
-    user = models.User.objects.filter (name=form_data["user"])
-    if user:
-        api_key = user[0].api_key
+    users = models.User.objects.filter (name=form_data["user"])
+    if users:
+        user = users[0]
+        api_key = user.api_key
         if api_key == form_data["api_key"]:
             valid_login = True
 
@@ -54,11 +55,14 @@ def index (request):
     # Send email 
     email = models.FromEmail.objects.all()[0].email
     password = models.FromEmail.objects.all()[0].password
-    receivers = user[0].to_emails.split(",")
+    receivers = user.to_emails.split(",")
     emailer = Email_manager (email, password)
     emailer.send_email (receivers, 
                         subject=subject, 
                         body=message)
 
+    # Save in history
+    register = models.History (user=user, subject=subject)
+    register.save()
 
     return HttpResponseRedirect(form_data["redirect"]) 
