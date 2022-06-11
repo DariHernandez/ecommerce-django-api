@@ -1,0 +1,119 @@
+{% extends 'admin/base.html' %}
+
+{% load static %}
+
+{% block extrastyle %}{{ block.super }}
+<style>
+
+/* colors */
+:root {
+    --primary: #FFD523;
+    --primary-transparent: #ffd72358;
+    --secondary: #FFD523;
+    --link-fg: #B2B1B9;
+    --link-selected-fg: #B2B1B9;
+    --darkened-bg: #2C2E43;
+    --body-bg: #1b1d2c;
+    --header-link-color: #1b1d2c;
+    --header-color: #2C2E43;
+    --breadcrumbs-link-fg: #595260;
+    --darkened-bg: #2c2e4360;
+}
+
+#user-tools a:hover, #user-tools a:hover {
+    color: var(--header-link-color);
+    opacity: 0.5;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+#user-tools a[href='/'] {
+    display: none;
+}
+
+h1, h1 a {
+    color: var(--header-link-color) !important;
+}
+
+h1, h1 a {
+    font-weight: bold;
+}
+
+#header {
+    margin-bottom: 0;
+}
+
+#container .breadcrumbs {
+    display: none;
+}
+
+#nav-sidebar {
+    margin-top: 65px;
+}
+
+#nav-filter {
+    display: none;
+}
+
+thead th.sorted {
+    background: var(--darkened-bg);
+}
+
+#nav-sidebar .current-model {
+    background: #ffd72314;
+}
+
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+    color: var(--body-bg)
+}
+
+input[type=text], input[type=password], input[type=email], input[type=url], input[type=number], input[type=tel], textarea, select, .vTextField {
+    border-width: 2px;
+}
+
+input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, input[type=url]:focus, input[type=number]:focus, input[type=tel]:focus, textarea:focus, select:focus, .vTextField:focus {
+    border-color: var(--link-selected-fg);
+}
+
+.main:not(.shifted) #content h1 {
+    display: none;
+}
+
+.main #content h1 {
+    color: var(--link-fg) !important;
+}
+
+#toggle-nav-sidebar {
+    display: none;
+}
+
+/* hightlight current model */
+table .current-model {
+    background-color: var(--primary-transparent) !important;
+}
+table .current-model th {
+    padding-left: 30px !important;
+}
+
+/* round styles */
+#header, table caption, #changelist-filter h2  {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+
+/* Responsive */
+#container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+</style>
+
+
+{% endblock %}
+
+{% block extrahead %}{{ block.super }}
+    <link rel="icon" href="{% static 'store/favicon.ico' %}" href="imagen.ico"/>
+{% endblock %}
