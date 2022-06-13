@@ -23,11 +23,6 @@ product_price = 10
 product_sizes = "5,6,7"
 
 class TestKeaganModels (TestCase):
-
-    def __init__ (self,  *args, **kwargs):
-        super(TestKeaganModels, self).__init__(*args, **kwargs)
-
-        # Test variables
         
 
     # ----- Brand model functions --------------------------------

@@ -1,6 +1,7 @@
 import os
 import random
 from . import models
+from django.http import JsonResponse
 
 
 keagan_images_server = "https://raw.githubusercontent.com/DariHernandez/Keagan-s-Kloset-Boutique-images/master"
@@ -11,7 +12,7 @@ def index (request):
         "status": "running",
         "stores": ["keagan",]
     }
-    return "JsonResponse(response)"
+    return JsonResponse(response)
 
 def keagan_update_images_links (product):
     
