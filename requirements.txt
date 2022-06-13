@@ -1,4 +1,7 @@
 Pillow==9.1.1
 Django==4.0.4
 requests==2.27.1
+pyzmail39==0.0.2
+IMAPClient==2.2.0
+
 

@@ -1,7 +1,6 @@
 import os
 import time
 import json
-from unicodedata import category
 import requests
 from . import models
 from . import images_server

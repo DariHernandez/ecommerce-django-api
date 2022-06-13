@@ -12,7 +12,7 @@ class Email_manager ():
     """Manage emails: connect and send mails
     """
     
-    def __init__(self, email, password, server, port): 
+    def __init__(self, email, password, server=None, port=None): 
         """Constrcutor of class
         """
         
@@ -67,7 +67,7 @@ class Email_manager ():
         # Use specific folder
         self.imapObj.select_folder (folder, readonly=False)
     
-    def get_uids (self, search_query, last_emails_num=0):
+    def get_uids (self, search_query=None, last_emails_num=0):
 
          # Seach emails (get uid: unique identifiers)
         if search_query:
