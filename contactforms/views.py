@@ -55,11 +55,8 @@ def index (request):
     # Send email 
     email = models.FromEmail.objects.all()[0].email
     password = models.FromEmail.objects.all()[0].password
-    receivers = user.to_emails.split(",")
     emailer = Email_manager (email, password)
-    emailer.send_email (receivers, 
-                        subject=subject, 
-                        body=message)
+    emailer.send_email ([user.to_email], subject, message)
 
     # Save in history
     register = models.History (user=user, subject=subject)

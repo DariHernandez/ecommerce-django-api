@@ -4,7 +4,7 @@ from django.db import models
 class User (models.Model):
     name = models.CharField (max_length=100)
     api_key = models.CharField (max_length=32)
-    to_emails = models.CharField (max_length=250)
+    to_email = models.CharField (max_length=250)
 
 class FromEmail (models.Model):
     email = models.CharField (max_length=50)

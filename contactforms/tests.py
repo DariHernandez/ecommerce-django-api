@@ -13,19 +13,19 @@ class TestApi (TestCase):
         credentials = config.Config()
         self.api_key = credentials.get('api_key')
         self.user = credentials.get('user')
-        self.to_emails = credentials.get('to_emails')
+        self.to_email = credentials.get('to_email')
         self.redirect = credentials.get('redirect')
         self.from_email = credentials.get('from_email')
         self.from_password = credentials.get('from_password')
 
         # Create models
         user = models.User(name=self.user,
-                           api_key=self.api_key,
-                           to_emails=self.to_emails)
+                            api_key=self.api_key,
+                            to_email=self.to_email)
         user.save()
 
         from_email = models.FromEmail (email=self.from_email,
-                                       password=self.from_password)
+                                        password=self.from_password)
         from_email.save ()
 
     def test_post_no_arguments(self):
@@ -83,4 +83,4 @@ class TestApi (TestCase):
         emails = emailer.get_emals (uids)
         self.assertEqual (len(emails), 1)
         to_mail = emails[0]["to_email"][0]
-        self.assertEqual (to_mail, self.to_emails)
+        self.assertEqual (to_mail, self.to_email)
