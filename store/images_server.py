@@ -7,7 +7,7 @@ def upload_keagan (test_id="", test_start=True):
     
     # Move to images folder
     parent_folder = os.path.dirname(__file__)
-    images_folder = os.path.join (parent_folder, "static", "store", "imgs_keagan")
+    images_folder = os.path.join (os.path.dirname (parent_folder), "media")
     os.chdir (images_folder)
 
     # make commit and upload to github
