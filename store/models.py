@@ -39,7 +39,7 @@ class KeaganBrand (models.Model):
     # Database
     name = models.CharField(max_length=20)
     details = models.TextField(max_length=500, default=None)
-    image = models.ImageField (blank=True, upload_to=f'media/keagan/brands', default=None, max_length=500)
+    image = models.ImageField (blank=True, upload_to=f'keagan/brands', default=None, max_length=500)
 
     # Show brand name in form
     def __str__ (self):
@@ -55,19 +55,19 @@ class KeaganProduct (models.Model):
     brand = models.ForeignKey (KeaganBrand, on_delete=models.CASCADE, null=True)
     name = models.CharField (max_length=40)
     price = models.FloatField ()
-    image = models.ImageField (blank=True, upload_to=f'media/keagan/products/full-size', default=None, max_length=500)
+    image = models.ImageField (blank=True, upload_to=f'keagan/products/full-size', default=None, max_length=500)
     sizes = models.CharField (max_length=100, verbose_name="Sizes (separted by commas)")
 
     # Show product code, brand, namd and price, in form
     def __str__ (self):
 
         # Format product price
-        if (len(str(self.price).split(".")[1]) == 1): 
+        if (len(str(self.price).split(".")[1]) == 1):
             price_formated = f"{self.price}0"
         else:
             price_formated = f"{self.price}"
 
-        return f"{self.code} ({self.brand}, {self.name}, {price_formated})" 
+        return f"{self.code} ({self.brand}, {self.name}, {price_formated})"
 
     # Do this when data is saving (rewrtite the save function)
     def save (self):
@@ -94,7 +94,7 @@ class KeaganProduct (models.Model):
         verbose_name = "product"
 
 class KeaganBest (models.Model):
-    
+
     # Database
     product = models.ForeignKey (KeaganProduct, on_delete=models.CASCADE, null=True)
 
@@ -107,7 +107,7 @@ class KeaganBest (models.Model):
         verbose_name = "best product"
 
 class KeaganNewProductCategory (models.Model):
-    
+
     # Database
     name = models.CharField (max_length=50)
     details = models.TextField(max_length=1000, default=None)
@@ -126,18 +126,18 @@ class KeaganNewProduct (models.Model):
     category = models.ForeignKey (KeaganNewProductCategory, on_delete=models.CASCADE, null=True)
     name = models.CharField (max_length=40)
     price = models.FloatField ()
-    image = models.ImageField (blank=True, upload_to=f'media/keagan/products/full-size', default=None, max_length=500)
+    image = models.ImageField (blank=True, upload_to=f'keagan/products/full-size', default=None, max_length=500)
 
     # Show product code, brand, namd and price, in form
     def __str__ (self):
 
         # Format product price
-        if (len(str(self.price).split(".")[1]) == 1): 
+        if (len(str(self.price).split(".")[1]) == 1):
             price_formated = f"{self.price}0"
         else:
             price_formated = f"{self.price}"
 
-        return f"{self.id} ({self.category}, {self.name}, {price_formated})" 
+        return f"{self.id} ({self.category}, {self.name}, {price_formated})"
 
     # Do this when data is saving (rewrtite the save function)
     def save (self):
