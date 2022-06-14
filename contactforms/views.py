@@ -49,7 +49,7 @@ def index (request):
             message += f"{input_name}: {input_value}\n"
 
         # Get custom subject
-        elif input_name == "subject":
+        if input_name == "subject":
             subject = input_value
 
     # Send email 
