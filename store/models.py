@@ -38,7 +38,7 @@ class KeaganBrand (models.Model):
     # Database
     name = models.CharField(max_length=20)
     details = models.TextField(max_length=500, default=None)
-    image = models.ImageField (blank=True, upload_to=f'brands', default=None, max_length=500)
+    image = models.ImageField (blank=True, upload_to=f'media/brands', default=None, max_length=500)
 
     # Show brand name in form
     def __str__ (self):
@@ -54,7 +54,7 @@ class KeaganProduct (models.Model):
     brand = models.ForeignKey (KeaganBrand, on_delete=models.CASCADE, null=True)
     name = models.CharField (max_length=40)
     price = models.FloatField ()
-    image = models.ImageField (blank=True, upload_to=f'products/full-size', default=None, max_length=500)
+    image = models.ImageField (blank=True, upload_to=f'media/products/full-size', default=None, max_length=500)
     sizes = models.CharField (max_length=100, verbose_name="Sizes (separted by commas)")
 
     # Show product code, brand, namd and price, in form
@@ -125,7 +125,7 @@ class KeaganNewProduct (models.Model):
     category = models.ForeignKey (KeaganNewProductCategory, on_delete=models.CASCADE, null=True)
     name = models.CharField (max_length=40)
     price = models.FloatField ()
-    image = models.ImageField (blank=True, upload_to=f'products/full-size', default=None, max_length=500)
+    image = models.ImageField (blank=True, upload_to=f'media/products/full-size', default=None, max_length=500)
 
     # Show product code, brand, namd and price, in form
     def __str__ (self):
