@@ -4,7 +4,7 @@ from . import models
 from django.http import JsonResponse
 
 
-keagan_images_server = "https://raw.githubusercontent.com/DariHernandez/Keagan-s-Kloset-Boutique-images/master"
+keagan_images_server = "https://darideveloper.pythonanywhere.com/media/keagan"
 
 def index (request):
     """Return basic response in home"""
