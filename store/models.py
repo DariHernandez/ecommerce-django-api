@@ -3,7 +3,7 @@ import time
 from PIL import Image
 from django.db import models
 from threading import Thread
-from . import images_server
+# from . import images_server
 
 global updateting_images
 updateting_images = False
@@ -28,8 +28,8 @@ def resize_upload_images (image_path):
     regular_path = str(image_path).replace("full-size", "")
     new_img.save (regular_path)
 
-    file_name = os.path.basename (image_path)
-    images_server.upload_keagan (test_id="", file_name=file_name)
+    # file_name = os.path.basename (image_path)
+    # images_server.upload_keagan (test_id="", file_name=file_name)
 
     updateting_images = False
 
