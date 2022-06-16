@@ -37,7 +37,7 @@ def resize_upload_images (image_path):
 class KeaganBrand (models.Model):
 
     # Database
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=250)
     details = models.TextField(max_length=500, default=None)
     image = models.ImageField (blank=True, upload_to=f'keagan/brands', default=None, max_length=500)
 
