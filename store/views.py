@@ -111,14 +111,14 @@ def keagan_home (request):
     }
     return JsonResponse(response, safe=True)
 
-def keagan_category_products (request, brand_id):
+def keagan_category_products (request, brand_name):
     """Return all products from soecific category"""
 
     # Get brand data
-    brand = list(models.KeaganBrand.objects.filter (id=brand_id).values())[0]
+    brand = list(models.KeaganBrand.objects.filter (name=brand_name).values())[0]
 
     # Get products for current category
-    products = list(models.KeaganProduct.objects.filter (brand=brand_id).values())
+    products = list(models.KeaganProduct.objects.filter (brand=brand_name).values())
 
     # Update images urls
     products = list(map(keagan_update_images_links, products))
