@@ -373,35 +373,35 @@ class TestKeaganModels (TestCase):
         self.new_product_update ()
         self.new_product_delete ()
 
-class TestImageServer (TestCase):
+# class TestImageServer (TestCase):
 
-    def test_keagan (self):
-        """
-        Download sample image and upload to github
-        """
-        now = time.time()
+#     def test_keagan (self):
+#         """
+#         Download sample image and upload to github
+#         """
+#         now = time.time()
 
-        # Urls and paths
-        image_url = "https://www.darideveloper.com/imgs/logo.png"
-        parent_folder = os.path.dirname(__file__)
-        image_path = os.path.join (parent_folder, "static", "store", "imgs_keagan", f"test-img{now}.png")
+#         # Urls and paths
+#         image_url = "https://www.darideveloper.com/imgs/logo.png"
+#         parent_folder = os.path.dirname(__file__)
+#         image_path = os.path.join (parent_folder, "static", "store", "imgs_keagan", f"test-img{now}.png")
 
-        # Download sample image
-        res = requests.get (image_url)
-        res.raise_for_status()
-        file = open (image_path, "wb")
-        for chunk in res.iter_content(100000):
-            file.write (chunk)
-        file.close()
+#         # Download sample image
+#         res = requests.get (image_url)
+#         res.raise_for_status()
+#         file = open (image_path, "wb")
+#         for chunk in res.iter_content(100000):
+#             file.write (chunk)
+#         file.close()
 
-        # Upload new image to github
-        images_server.upload_keagan (test_id=int(now), test_start=True)
+#         # Upload new image to github
+#         images_server.upload_keagan (test_id=int(now), test_start=True)
 
-        # Delete image
-        os.remove (image_path)
+#         # Delete image
+#         os.remove (image_path)
 
-        # Delete image from github
-        images_server.upload_keagan (test_id=int(now), test_start=False)
+#         # Delete image from github
+#         images_server.upload_keagan (test_id=int(now), test_start=False)
 
 class TestApi (TestCase):
 
@@ -567,9 +567,3 @@ class TestApi (TestCase):
         random_products_first = random_products[1]
         self.assertIn (related_product_name, random_products_first["name"])
         self.assertEqual (random_products_first["price"], product_price)
-
-
-
-
-
-    
