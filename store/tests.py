@@ -9,8 +9,9 @@ from django.urls import reverse
 
 
 
-static_folder = os.path.join (os.path.dirname(__file__), "static", "store")
-image = os.path.join(static_folder, "test.jpg")
+static_folder = os.path.join (os.path.dirname(os.path.dirname(__file__)), "static")
+image = os.path.join(static_folder, "test.png")
+images_server = "https://darideveloper.pythonanywhere.com/media"
 
 brand_name = "test brand"
 brand_details = "test brand details"
@@ -20,6 +21,7 @@ product_brand = 1
 product_name = "test product"
 product_price = 10
 product_sizes = "5,6,7"
+
 
 class TestKeaganModels (TestCase):
         
@@ -438,6 +440,9 @@ class TestApi (TestCase):
         self.assertIn ("regular_products", json_data)
         self.assertIn ("best_products", json_data)
 
+        # Get image file name
+        image_file = os.path.basename (image)
+
         # Check new products
         new_products = json_data["new_products"]
         self.assertGreaterEqual (len(new_products), 1)
@@ -446,9 +451,13 @@ class TestApi (TestCase):
         self.assertEqual (new_products_frist["category_name"], brand_name)
         self.assertEqual (new_products_frist["category_details"], brand_details)
 
+
         new_products_frist_product = new_products_frist["new_products"][0]
         self.assertEqual (new_products_frist_product["name"], product_name)
         self.assertEqual (new_products_frist_product["price"], product_price)
+        self.assertEqual (new_products_frist_product["image"], image_file)
+        self.assertEqual (new_products_frist_product["image_url_full"], f"{images_server}/keagan/products/full-size/{image_file}")
+        self.assertEqual (new_products_frist_product["image_url"], f"{images_server}/keagan/products/{image_file}")
 
         # Check regular products
         regular_products = json_data["regular_products"]
@@ -463,6 +472,8 @@ class TestApi (TestCase):
         self.assertEqual (regular_products_first_product["name"], product_name)
         self.assertEqual (regular_products_first_product["price"], product_price)
         self.assertEqual (regular_products_first_product["sizes"], product_sizes)
+        self.assertEqual (regular_products_first_product["image_url_full"], f"{images_server}/keagan/products/full-size/{image_file}")
+        self.assertEqual (regular_products_first_product["image_url"], f"{images_server}/keagan/products/{image_file}")
 
         # Check best product
         best_product = json_data["best_products"][0]
@@ -470,6 +481,8 @@ class TestApi (TestCase):
         self.assertEqual (best_product["name"], product_name)
         self.assertEqual (best_product["price"], product_price)
         self.assertEqual (best_product["sizes"], product_sizes)
+        self.assertEqual (best_product["image_url_full"], f"{images_server}/keagan/products/full-size/{image_file}")
+        self.assertEqual (best_product["image_url"], f"{images_server}/keagan/products/{image_file}")
 
 
     def test_keagan_category_products (self):
@@ -491,12 +504,17 @@ class TestApi (TestCase):
         self.assertEqual (json_data["brand_name"], brand_name)
         self.assertEqual (json_data["brand_details"], brand_details)
 
+        # Get image file name
+        image_file = os.path.basename (image)
+
         # Check product data
         product = json_data["products"][0]
         self.assertEqual (product["code"], product_code)
         self.assertEqual (product["name"], product_name)
         self.assertEqual (product["price"], product_price)
         self.assertEqual (product["sizes"], product_sizes)
+        self.assertEqual (product["image_url_full"], f"{images_server}/keagan/products/full-size/{image_file}")
+        self.assertEqual (product["image_url"], f"{images_server}/keagan/products/{image_file}")
 
     def test_keagan_product (self):
         """Test product data retuned for the keagan_product endpoint"""
@@ -519,12 +537,17 @@ class TestApi (TestCase):
         json_data = json.loads(response.content)
         self.assertEqual (json_data["brand"], brand_name)
 
+        # Get image file name
+        image_file = os.path.basename (image)
+
         # Check main product data
         product = json_data["product"]
         self.assertEqual (product["code"], product_code)
         self.assertEqual (product["name"], main_product_name)
         self.assertEqual (product["price"], product_price)
         self.assertEqual (product["sizes"], product_sizes)
+        self.assertEqual (product["image_url_full"], f"{images_server}/keagan/products/full-size/{image_file}")
+        self.assertEqual (product["image_url"], f"{images_server}/keagan/products/{image_file}")
 
         # Check random products data
         random_products = json_data["random_products"]
@@ -534,6 +557,8 @@ class TestApi (TestCase):
         self.assertIn (related_product_name, random_products_first["name"])
         self.assertEqual (random_products_first["price"], product_price)
         self.assertEqual (random_products_first["sizes"], product_sizes)
+        self.assertEqual (random_products_first["image_url_full"], f"{images_server}/keagan/products/full-size/{image_file}")
+        self.assertEqual (random_products_first["image_url"], f"{images_server}/keagan/products/{image_file}")
 
     def test_keagan_product_new (self):
         """Test product data retuned for the keagan_product_new endpoint"""
@@ -556,10 +581,15 @@ class TestApi (TestCase):
         json_data = json.loads(response.content)
         self.assertEqual (json_data["category"], brand_name)
 
+        # Get image file name
+        image_file = os.path.basename (image)
+
         # Check main product data
         product = json_data["product"]
         self.assertEqual (product["name"], main_product_name)
         self.assertEqual (product["price"], product_price)
+        self.assertEqual (product["image_url_full"], f"{images_server}/keagan/products/full-size/{image_file}")
+        self.assertEqual (product["image_url"], f"{images_server}/keagan/products/{image_file}")
 
         # Check random products data
         random_products = json_data["random_products"]
@@ -567,3 +597,5 @@ class TestApi (TestCase):
         random_products_first = random_products[1]
         self.assertIn (related_product_name, random_products_first["name"])
         self.assertEqual (random_products_first["price"], product_price)
+        self.assertEqual (random_products_first["image_url_full"], f"{images_server}/keagan/products/full-size/{image_file}")
+        self.assertEqual (random_products_first["image_url"], f"{images_server}/keagan/products/{image_file}")
