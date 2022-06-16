@@ -15,7 +15,7 @@ def index (request):
     return JsonResponse(response)
 
 def keagan_update_images_links (product):
-    
+
     # Get image name
     image = product["image"]
     image_name = os.path.basename (image)
@@ -50,7 +50,7 @@ def keagan_home (request):
 
         # Get products for current category
         new_products = list(models.KeaganNewProduct.objects.filter (category=new_products_categorie_id).values())
-        
+
         # Update images urls
         new_products = list(map(keagan_update_images_links, new_products))
 
@@ -85,7 +85,7 @@ def keagan_home (request):
 
         # Save to main dict
         regular_products_formated.append (brand_data)
-    
+
     #  ///// Get and format best products ////////////////////
     best_products_formated = []
 
@@ -118,7 +118,7 @@ def keagan_category_products (request, brand_name):
     brand = list(models.KeaganBrand.objects.filter (name=brand_name).values())[0]
 
     # Get products for current category
-    products = list(models.KeaganProduct.objects.filter (brand=brand_name).values())
+    products = list(models.KeaganProduct.objects.filter (brand=brand["id"]).values())
 
     # Update images urls
     products = list(map(keagan_update_images_links, products))
@@ -224,4 +224,3 @@ def keagan_product_new (request, product_id):
     }
 
     return JsonResponse(response)
-    
