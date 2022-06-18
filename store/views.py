@@ -97,6 +97,14 @@ def keagan_home (request):
 
         # Get product data
         product_data = list(models.KeaganProduct.objects.filter (id=best_product_id).values())[0]
+
+        # Get brand name
+        brand_data = list(models.KeaganBrand.objects.filter (id=product_data["brand_id"]).values())[0]
+        brand_name = brand_data["name"]
+
+        # Add name to product data
+        product_data["brand_name"] = brand_name
+
         best_products_formated.append (product_data)
 
     # Update images urls
