@@ -76,7 +76,7 @@ def keagan_home (request):
         brand_data["image"] = keagan_get_brand_image_link(products_brand["image"])
 
         # Get products for current category
-        products = list(models.KeaganProduct.objects.filter (brand=brand_id).values())[0:4]
+        products = list(models.KeaganProduct.objects.filter (brand=brand_id).values())
 
         # Update images urls
         products = list(map(keagan_update_images_links, products))
