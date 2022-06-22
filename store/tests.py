@@ -493,7 +493,7 @@ class TestApi (TestCase):
         test_keagan_models.product_create ()
 
         # Get response
-        response = self.client.get(reverse('store:keagan_category_products', kwargs={"brand_id":1}))
+        response = self.client.get(reverse('store:keagan_category_products', kwargs={"brand_name": brand_name}))
         self.assertEqual (response.status_code, 200)
 
         # Check general response content
