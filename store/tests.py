@@ -1,12 +1,8 @@
 import os
-import time
 import json
-import requests
 from . import models
-from . import images_server
 from django.test import TestCase
 from django.urls import reverse
-
 
 
 static_folder = os.path.join (os.path.dirname(os.path.dirname(__file__)), "static")
