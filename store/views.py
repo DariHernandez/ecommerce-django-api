@@ -240,7 +240,7 @@ def keagan_payment (request):
 
     api_key = credentials["keagans"]["secret"]
 
-    web_page = "https://www.keagansklosetboutique.com/"
+    web_page = "https://www.keagansklosetboutique.com/product"
 
     # Set api key
     stripe.api_key = api_key
@@ -279,8 +279,8 @@ def keagan_payment (request):
                 },
             ],
             mode='payment',
-            success_url=web_page + '/success.html',
-            cancel_url=web_page + '/cancel.html',
+            success_url=web_page + '?done=true',
+            cancel_url=web_page + f'?code={product_code}',
             automatic_tax={'enabled': True},
         )
     except Exception as e:
