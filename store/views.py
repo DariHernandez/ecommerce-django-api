@@ -1,7 +1,9 @@
 import os
+import stripe
 import random
 from . import models
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
+from .credentials import credentials
 
 
 keagan_images_server = "https://darideveloper.pythonanywhere.com/media/keagan"
@@ -232,3 +234,56 @@ def keagan_product_new (request, product_id):
     }
 
     return JsonResponse(response)
+
+
+def keagan_payment (request):
+
+    api_key = credentials["keagans"]["secret"]
+
+    web_page = "https://www.keagansklosetboutique.com/product"
+
+    # Set api key
+    stripe.api_key = api_key
+
+    # Get product data
+    product_code = request.GET ["code"]
+    product_quantity = request.GET ["quantity"]
+    product_size = request.GET ["size"]
+    product = models.KeaganProduct.objects.filter(code=product_code)[0]
+
+    # Create product
+    image_name = os.path.basename (str(product.image))
+    stripe_product = stripe.Product.create(name=product.name,
+                        description=f"{product.name} of {product.brand} brand. Size: {product_size}.",
+                        images = [
+                            f"{keagan_images_server}/products/full-size/{image_name}",
+                            f"{keagan_images_server}/products/{image_name}",
+                            ]
+                        )
+
+    # Create product price
+    stripe_price = stripe.Price.create(
+        unit_amount=int(product.price*100),
+        currency="usd",
+        product=stripe_product["id"],
+        tax_behavior="exclusive",
+    )
+
+    try:
+        checkout_session = stripe.checkout.Session.create(
+            line_items=[
+                {
+                    # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+                    'price': stripe_price["id"],
+                    'quantity': product_quantity,
+                },
+            ],
+            mode='payment',
+            success_url=web_page + '?done=true',
+            cancel_url=web_page + f'?code={product_code}',
+            automatic_tax={'enabled': True},
+        )
+    except Exception as e:
+        return HttpResponse(str(e))
+
+    return HttpResponseRedirect(checkout_session.url)
