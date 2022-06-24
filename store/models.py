@@ -56,7 +56,7 @@ class KeaganProduct (models.Model):
     name = models.CharField (max_length=40)
     price = models.FloatField ()
     image = models.ImageField (blank=True, upload_to=f'keagan/products/full-size', default=None, max_length=500)
-    sizes = models.CharField (max_length=100, verbose_name="Sizes (separted by commas)")
+    sizes = models.CharField (max_length=100, verbose_name="Sizes (separted by commas)", blank=True, null=True)
 
     # Show product code, brand, namd and price, in form
     def __str__ (self):
