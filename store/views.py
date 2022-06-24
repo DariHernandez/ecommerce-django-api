@@ -157,10 +157,19 @@ def keagan_payment (request):
     stripe.api_key = api_key
 
     # Get product data
-    product_code = request.POST ["code"]
+    new_product = False
+    try:
+        product_code = request.POST ["code"]
+    except:
+        product_code = request.POST ["new-code"]
+        new_product = True
     product_quantity = request.POST ["quantity"]
     product_size = request.POST ["size"]
-    product = models.KeaganProduct.objects.filter(code=product_code)[0]
+
+    if new_product:
+        product = models.KeaganProduct.objects.filter(code=product_code)[0]
+    else:
+        product = models.KeaganNewProduct.objects.filter(id=product_code)[0]
 
     # Create product
     image_name = os.path.basename (str(product.image))
