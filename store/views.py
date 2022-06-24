@@ -167,9 +167,9 @@ def keagan_payment (request):
     product_size = request.POST ["size"]
 
     if new_product:
-        product = models.KeaganProduct.objects.filter(code=product_code)[0]
-    else:
         product = models.KeaganNewProduct.objects.filter(id=product_code)[0]
+    else:
+        product = models.KeaganProduct.objects.filter(code=product_code)[0]
 
     # Create product
     image_name = os.path.basename (str(product.image))
