@@ -3,6 +3,8 @@ import stripe
 import random
 from . import models
 from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
+from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
 from .credentials import credentials
 
 
@@ -143,6 +145,8 @@ def keagan_category_products (request, brand_name):
 
     return JsonResponse(response)
 
+@require_http_methods(["POST"])
+@csrf_exempt
 def keagan_payment (request):
 
     api_key = credentials["keagans"]["secret"]
@@ -153,9 +157,9 @@ def keagan_payment (request):
     stripe.api_key = api_key
 
     # Get product data
-    product_code = request.GET ["code"]
-    product_quantity = request.GET ["quantity"]
-    product_size = request.GET ["size"]
+    product_code = request.POST ["code"]
+    product_quantity = request.POST ["quantity"]
+    product_size = request.POST ["size"]
     product = models.KeaganProduct.objects.filter(code=product_code)[0]
     
     # Create product
