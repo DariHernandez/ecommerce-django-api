@@ -168,13 +168,15 @@ def keagan_payment (request):
 
     if new_product:
         product = models.KeaganNewProduct.objects.filter(id=product_code)[0]
+        brand = product.category
     else:
         product = models.KeaganProduct.objects.filter(code=product_code)[0]
+        brand = product.brand
 
     # Create product
     image_name = os.path.basename (str(product.image))
     stripe_product = stripe.Product.create(name=product.name,
-                        description=f"{product.name} of {product.brand} brand. Size: {product_size}.",
+                        description=f"{product.name} of {brand} brand. Size: {product_size}.",
                         images = [
                             f"{keagan_images_server}/products/full-size/{image_name}",
                             f"{keagan_images_server}/products/{image_name}",
