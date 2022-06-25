@@ -57,6 +57,7 @@ def keagan_home (request):
 
         # Update images urls
         new_products = list(map(keagan_update_images_links, new_products))
+        new_products.reverse ()
 
         category_data["new_products"] = new_products
 
@@ -84,6 +85,7 @@ def keagan_home (request):
 
         # Update images urls
         products = list(map(keagan_update_images_links, products))
+        products.reverse ()
 
         brand_data["products"] = products
 
@@ -134,6 +136,7 @@ def keagan_category_products (request, brand_name):
 
     # Update images urls
     products = list(map(keagan_update_images_links, products))
+    products.reverse ()
 
     # Format response
     response = {
