@@ -1,5 +1,7 @@
 from django.contrib import admin, auth
 from . import models
+from django.contrib.auth.models import Group, User
+from django.contrib.auth.admin import UserAdmin, GroupAdmin
 
 class MyAdminSite(admin.AdminSite):
     site_header = 'Dari Dev Store Dashboard'
@@ -7,9 +9,6 @@ class MyAdminSite(admin.AdminSite):
     
 
 admin_site = MyAdminSite()
-
-# regular import database table
-# admin.site.register(keagan_brand)
 
 # Import with extra actions
 @admin.register(models.KeaganBrand)
@@ -44,9 +43,24 @@ class NewProductAdmin(admin.ModelAdmin):
     search_fields = ['name']
     search_help_text = "Serach new product by name"
 
+# Unregister defauls admin and groups
+admin.site.unregister(User)
+admin.site.unregister(Group)
 
-admin_site.register(auth.models.User)
-admin_site.register(auth.models.Group)
+# Setup agian admin and groups using django class
+@admin.register(User)
+class NewUserAdmin(UserAdmin):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+@admin.register(Group)
+class NewGroupAdmin(GroupAdmin):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
+admin_site.register(User, NewUserAdmin)
+admin_site.register(Group, NewGroupAdmin)
 admin_site.register(models.KeaganBrand, BrandAdmin)
 admin_site.register(models.KeaganProduct, ProductAdmin)
 admin_site.register(models.KeaganBest, BestAdmin)
