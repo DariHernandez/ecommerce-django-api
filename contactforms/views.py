@@ -52,11 +52,27 @@ def index (request):
         if input_name == "subject":
             subject = input_value
 
-    # Send email 
-    email = models.FromEmail.objects.all()[0].email
-    password = models.FromEmail.objects.all()[0].password
-    emailer = Email_manager (email, password)
-    emailer.send_email ([user.to_email], subject, message)
+    # Get blacklist of emails
+    is_spam = False
+    blackLiist_email_found = ""
+    message_clean = message.lower().strip()
+    blackLiist_emails = map (lambda elem : elem.to_email, models.BlackList.objects.all())
+    for blackLiist_email in blackLiist_emails:
+        blackLiist_email_clean = blackLiist_email.lower().strip()
+        if blackLiist_email in message_clean:
+            is_spam = True
+            blackLiist_email_found = blackLiist_email
+            break
+
+    if is_spam:
+        # Dont send message and change subject in history
+        subject = f"Spam try from {blackLiist_email_found}"
+    else:
+        # Send email 
+        email = models.FromEmail.objects.all()[0].email
+        password = models.FromEmail.objects.all()[0].password
+        emailer = Email_manager (email, password)
+        emailer.send_email ([user.to_email], subject, message)
 
     # Save in history
     register = models.History (user=user, subject=subject)

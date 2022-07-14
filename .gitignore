@@ -8,3 +8,4 @@ imgs
 settings.py
 *images_server.py
 *credentials.py
+*migrations

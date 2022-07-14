@@ -4,5 +4,6 @@
     "redirect": "http://www.darideveloper.com/",
     "to_email": "hernandezdarifrancisco@gmail.com",
     "from_email": "darideveloper@gmail.com",
-    "from_password": "dslmrwctccrgiilw"
+    "from_password": "dslmrwctccrgiilw",
+    "blackList_email": "spamemail@gmail.com"
 }
